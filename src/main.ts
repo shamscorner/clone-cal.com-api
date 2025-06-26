@@ -1,8 +1,38 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { WinstonModule } from 'nest-winston';
+import { loggerConfig } from './lib/logger';
+import { Logger } from '@nestjs/common';
+import { bootstrap } from './app';
+import { ConfigService } from '@nestjs/config';
+import { AppConfig } from './config/app';
+import 'dotenv/config';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+async function run() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: WinstonModule.createLogger(loggerConfig()),
+    bodyParser: false, // Disable body parsing to handle it manually
+  });
+
+  const logger = new Logger('App');
+
+  try {
+    bootstrap(app);
+    const port = app
+      .get(ConfigService<AppConfig, true>)
+      .get('api.port', { infer: true });
+    await app.listen(port);
+    logger.log(`Application started on port: ${port}`);
+  } catch (error) {
+    console.error(error);
+    logger.error('Application crashed', {
+      error,
+    });
+  }
 }
-bootstrap();
+
+run().catch((error: Error) => {
+  console.error('Failed to start Cal Platform API', { error: error.stack });
+  process.exit(1);
+});
