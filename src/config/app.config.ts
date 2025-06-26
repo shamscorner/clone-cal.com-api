@@ -28,6 +28,7 @@ export const appConfig = (): AppConfig => {
           : ''
       }/${getEnv('API_GLOBAL_PREFIX', '/api')}/v1`,
       keyPrefix: getEnv('API_KEY_PREFIX', 'cal_'),
+      globalPrefix: getEnv('API_GLOBAL_PREFIX', '/api'),
     },
   };
 };

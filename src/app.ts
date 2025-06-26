@@ -1,7 +1,9 @@
 import { VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Request } from 'express';
 
+import { AppConfig } from './config/app.config';
 import {
   API_VERSIONS,
   API_VERSIONS_ENUM,
@@ -33,8 +35,12 @@ export const bootstrap = (
     defaultVersion: VERSION_2024_04_15,
   });
 
-  if (process?.env?.API_GLOBAL_PREFIX) {
-    app.setGlobalPrefix(process?.env?.API_GLOBAL_PREFIX);
+  const apiGlobalPrefix = app
+    .get(ConfigService<AppConfig, true>)
+    .get('api.globalPrefix', { infer: true });
+
+  if (apiGlobalPrefix) {
+    app.setGlobalPrefix(apiGlobalPrefix);
   }
 
   return app;
