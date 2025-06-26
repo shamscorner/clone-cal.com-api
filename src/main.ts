@@ -6,7 +6,7 @@ import { WinstonModule } from 'nest-winston';
 
 import 'dotenv/config';
 
-import { AppConfig } from './config/app';
+import { AppConfig } from './config/app.config';
 import { loggerConfig } from './lib/logger';
 import { bootstrap } from './app';
 import { AppModule } from './app.module';
@@ -23,7 +23,7 @@ async function run() {
     bootstrap(app);
     const port = app
       .get(ConfigService<AppConfig, true>)
-      .get('api.port', { infer: true });
+      .get('api.port', { infer: true }); // .get('API_PORT');
     await app.listen(port);
     logger.log(`Application started on port: ${port}`);
   } catch (error) {
