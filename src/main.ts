@@ -1,13 +1,15 @@
+import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WinstonModule } from 'nest-winston';
-import { loggerConfig } from './lib/logger';
-import { Logger } from '@nestjs/common';
-import { bootstrap } from './app';
-import { ConfigService } from '@nestjs/config';
-import { AppConfig } from './config/app';
+
 import 'dotenv/config';
+
+import { AppConfig } from './config/app';
+import { loggerConfig } from './lib/logger';
+import { bootstrap } from './app';
+import { AppModule } from './app.module';
 
 async function run() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

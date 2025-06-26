@@ -1,6 +1,6 @@
 import type { LoggerOptions } from 'winston';
+import { config, format, transports as Transports } from 'winston';
 import type Transport from 'winston-transport';
-import { format, transports as Transports, config } from 'winston';
 
 export const logLevels = config.npm.levels;
 
