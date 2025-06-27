@@ -16,6 +16,7 @@ import {
   VERSION_2024_04_15,
 } from './constants/api';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { PrismaExceptionFilter } from './filters/prisma-exception.filter';
 
 export const bootstrap = (
   app: NestExpressApplication,
@@ -55,6 +56,7 @@ export const bootstrap = (
     }),
   );
 
+  app.useGlobalFilters(new PrismaExceptionFilter());
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const apiGlobalPrefix = app
