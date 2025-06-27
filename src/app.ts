@@ -1,4 +1,9 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import {
+  BadRequestException,
+  ValidationError,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Request } from 'express';
@@ -10,6 +15,7 @@ import {
   CAL_API_VERSION_HEADER,
   VERSION_2024_04_15,
 } from './constants/api';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 export const bootstrap = (
   app: NestExpressApplication,
@@ -43,8 +49,13 @@ export const bootstrap = (
         target: true,
         value: true,
       },
+      exceptionFactory(errors: ValidationError[]) {
+        return new BadRequestException({ errors });
+      },
     }),
   );
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const apiGlobalPrefix = app
     .get(ConfigService<AppConfig, true>)
