@@ -1,4 +1,4 @@
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Request } from 'express';
@@ -34,6 +34,17 @@ export const bootstrap = (
     },
     defaultVersion: VERSION_2024_04_15,
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      validationError: {
+        target: true,
+        value: true,
+      },
+    }),
+  );
 
   const apiGlobalPrefix = app
     .get(ConfigService<AppConfig, true>)

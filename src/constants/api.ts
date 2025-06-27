@@ -15,3 +15,4 @@ export const API_VERSIONS = [
 ] as const;
 
 export type API_VERSIONS_ENUM = (typeof API_VERSIONS)[number];
+export type API_VERSIONS_TYPE = typeof API_VERSIONS;

@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: cal-postgres
+    environment:
+      POSTGRES_DB: calcom
+      POSTGRES_USER: calcom
+      POSTGRES_PASSWORD: calcom
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres_is_ready:
+    image: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  db_data:

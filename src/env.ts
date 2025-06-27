@@ -7,6 +7,8 @@ export type Environment = {
   API_URL: string;
   API_KEY_PREFIX: string;
   API_GLOBAL_PREFIX: string;
+  DATABASE_READ_URL: string;
+  DATABASE_WRITE_URL: string;
 };
 
 export const getEnv = <K extends keyof Environment>(
