@@ -8,7 +8,7 @@ export type ApiSuccessResponseWithoutData = { status: typeof SUCCESS_STATUS };
 export type API_ERROR_CODES_TYPE = (typeof API_ERROR_CODES)[number];
 
 export type ErrorType = {
-  code: API_ERROR_CODES_TYPE | string;
+  code: API_ERROR_CODES_TYPE;
   message?: string;
   details?: string | string[] | object;
 };

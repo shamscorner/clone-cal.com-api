@@ -17,7 +17,7 @@ import {
   NOT_FOUND,
 } from '@/constants/api';
 import { filterReqHeaders } from '@/lib/filterReqHeaders';
-import { Response } from '@/types/app.types';
+import { API_ERROR_CODES_TYPE, Response } from '@/types/app.types';
 
 type PrismaError =
   | PrismaClientInitializationError
@@ -46,7 +46,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
 
     this.logger.error(`PrismaError: ${error.message}`, {
       error,
-      body: request.body,
+      body: request.body as Record<string, unknown>,
       headers: filterReqHeaders(request.headers),
       url: request.url,
       method: request.method,
@@ -84,7 +84,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
       status: ERROR_STATUS,
       timestamp: new Date().toISOString(),
       path: request.url,
-      error: { code: errorCode, message: message },
+      error: { code: errorCode as API_ERROR_CODES_TYPE, message: message },
     });
   }
 }

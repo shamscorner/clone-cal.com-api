@@ -10,6 +10,7 @@ import { AppConfig } from './config/app.config';
 import { loggerConfig } from './lib/logger';
 import { bootstrap } from './app';
 import { AppModule } from './app.module';
+import { generateSwagger } from './swagger';
 
 async function run() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -24,6 +25,7 @@ async function run() {
     const port = app
       .get(ConfigService<AppConfig, true>)
       .get('api.port', { infer: true }); // .get('API_PORT');
+    generateSwagger(app);
     await app.listen(port);
     logger.log(`Application started on port: ${port}`);
   } catch (error) {

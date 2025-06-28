@@ -10,7 +10,7 @@ export class PrismaReadService implements OnModuleInit, OnModuleDestroy {
   public prisma: PrismaClient;
 
   constructor(readonly configService: ConfigService) {
-    const dbUrl = configService.get('db.readUrl', { infer: true });
+    const dbUrl = configService.get<string>('db.readUrl', { infer: true });
 
     this.prisma = new PrismaClient({
       datasources: {
@@ -22,7 +22,7 @@ export class PrismaReadService implements OnModuleInit, OnModuleDestroy {
   }
 
   async onModuleInit() {
-    this.prisma.$connect();
+    await this.prisma.$connect();
   }
 
   async onModuleDestroy() {

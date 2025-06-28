@@ -10,7 +10,7 @@ export class PrismaWriteService implements OnModuleInit, OnModuleDestroy {
   public prisma: PrismaClient;
 
   constructor(readonly configService: ConfigService) {
-    const dbUrl = configService.get('db.writeUrl', { infer: true });
+    const dbUrl = configService.get<string>('db.writeUrl', { infer: true });
 
     this.prisma = new PrismaClient({
       datasources: {
@@ -22,7 +22,7 @@ export class PrismaWriteService implements OnModuleInit, OnModuleDestroy {
   }
 
   async onModuleInit() {
-    this.prisma.$connect();
+    await this.prisma.$connect();
   }
 
   async onModuleDestroy() {

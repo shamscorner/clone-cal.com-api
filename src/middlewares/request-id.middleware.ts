@@ -12,14 +12,15 @@ export class RequestIdMiddleware implements NestMiddleware {
     const requestId = uuid();
     req.headers['X-Request-Id'] = requestId;
 
-    const { method, headers, body: requestBody, baseUrl } = req;
+    const { method, headers, baseUrl } = req;
+    const requestBody = req.body as Record<string, unknown> | undefined;
     let jsonBodyString = '{}';
 
     try {
       if (requestBody && typeof requestBody === 'object') {
         jsonBodyString = JSON.stringify(requestBody);
       }
-    } catch (err) {
+    } catch {
       this.logger.error('Could not parse request body');
     }
 

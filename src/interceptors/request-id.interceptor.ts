@@ -34,7 +34,7 @@ export class ResponseInterceptor implements NestInterceptor {
           if (data && typeof data === 'object') {
             jsonBodyString = JSON.stringify(data);
           }
-        } catch (err) {
+        } catch {
           this.logger.error('Could not parse request body');
         }
 

@@ -9,7 +9,7 @@ import { Request } from 'express';
 
 import { ERROR_STATUS } from '@/constants/api';
 import { filterReqHeaders } from '@/lib/filterReqHeaders';
-import { Response } from '@/types/app.types';
+import { API_ERROR_CODES_TYPE, Response } from '@/types/app.types';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
@@ -26,7 +26,7 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
 
     this.logger.error(`Http Exception Filter: ${exception?.message}`, {
       exception,
-      body: request.body,
+      body: request.body as Record<string, unknown>,
       headers: filterReqHeaders(request.headers),
       url: request.url,
       method: request.method,
@@ -38,7 +38,7 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
       timestamp: new Date().toISOString(),
       path: request.url,
       error: {
-        code: exception.name,
+        code: exception.name as API_ERROR_CODES_TYPE,
         message: exception.message,
         details: exception.getResponse(),
       },
