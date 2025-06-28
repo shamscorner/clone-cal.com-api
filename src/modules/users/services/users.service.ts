@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateManagedUserInput } from '../inputs/create-managed-user.input';
 import { UserIdInput } from '../inputs/user-id.input';
@@ -21,6 +21,12 @@ export class UsersService {
   }
 
   async findById(userIdInput: UserIdInput) {
-    return this.usersRepository.findById(userIdInput);
+    const user = await this.usersRepository.findById(userIdInput);
+    if (!user) {
+      throw new NotFoundException(
+        `User with ID=${userIdInput.id} does not exist.`,
+      );
+    }
+    return user;
   }
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreationSource } from '@prisma/client';
 
-import { PrismaReadService } from '@/modules/prisma/prisma-read.service';
-import { PrismaWriteService } from '@/modules/prisma/prisma-write.service';
-
 import { CreateManagedUserInput } from '../inputs/create-managed-user.input';
 import { UserIdInput } from '../inputs/user-id.input';
 import { UsernameInput } from '../inputs/user-name.input';
+
+import { PrismaReadService } from '@/modules/prisma/prisma-read.service';
+import { PrismaWriteService } from '@/modules/prisma/prisma-write.service';
 
 @Injectable()
 export class UsersRepository {
