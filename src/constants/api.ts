@@ -17,6 +17,12 @@ export const API_VERSIONS = [
 export type API_VERSIONS_ENUM = (typeof API_VERSIONS)[number];
 export type API_VERSIONS_TYPE = typeof API_VERSIONS;
 
+// Request headers
+export const X_CAL_SECRET_KEY = 'x-cal-secret-key';
+export const X_CAL_CLIENT_ID = 'x-cal-client-id';
+export const X_CAL_PLATFORM_EMBED = 'x-cal-platform-embed';
+
+// Response status codes
 export const SUCCESS_STATUS = 'success';
 export const ERROR_STATUS = 'error';
 export const REDIRECT_STATUS = 'redirect';

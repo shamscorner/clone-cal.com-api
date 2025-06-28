@@ -7,6 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Request } from 'express';
+import helmet from 'helmet';
 
 import { AppConfig } from './config/app.config';
 import {
@@ -14,6 +15,9 @@ import {
   API_VERSIONS_ENUM,
   CAL_API_VERSION_HEADER,
   VERSION_2024_04_15,
+  X_CAL_CLIENT_ID,
+  X_CAL_PLATFORM_EMBED,
+  X_CAL_SECRET_KEY,
 } from './constants/api';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { PrismaExceptionFilter } from './filters/prisma-exception.filter';
@@ -40,6 +44,24 @@ export const bootstrap = (
       return VERSION_2024_04_15;
     },
     defaultVersion: VERSION_2024_04_15,
+  });
+
+  app.use(helmet());
+
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', 'PATCH', 'DELETE', 'HEAD', 'POST', 'PUT', 'OPTIONS'],
+    allowedHeaders: [
+      X_CAL_CLIENT_ID,
+      X_CAL_SECRET_KEY,
+      X_CAL_PLATFORM_EMBED,
+      CAL_API_VERSION_HEADER,
+      'Accept',
+      'Authorization',
+      'Content-Type',
+      'Origin',
+    ],
+    maxAge: 86_400,
   });
 
   app.useGlobalPipes(
