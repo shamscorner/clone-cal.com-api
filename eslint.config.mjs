@@ -29,20 +29,17 @@ export default tseslint.config(
     plugins: {
       'simple-import-sort': simpleImportSort,
     },
-  },
-  {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
       'simple-import-sort/imports': [
         'error',
         {
           groups: [
-            // Packages `nestjs` related packages come first.
-            ['^nestjs', '^@?\\w'],
-            // Internal packages.
-            ['^(@|lib|config|constants)(/.*|$)'],
+            // Packages `svelte` related packages come first.
+            ['^svelte', '^@?\\w'],
+            // Packages `sveltekit` related packages come first.
+            ['^sveltekit', '^@?\\w'],
+            // Packages that starts with $../.. come first.
+            ['^\\$', '^@?\\w'],
             // Side effect imports.
             ['^\\u0000'],
             // Parent imports. Put `..` last.
@@ -55,6 +52,13 @@ export default tseslint.config(
         },
       ],
       'simple-import-sort/exports': 'error',
+    },
+  },
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
     },
   },
 );
